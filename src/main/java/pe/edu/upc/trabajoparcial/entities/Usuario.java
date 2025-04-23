@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,9 +34,14 @@ public class Usuario  {
     @Column(name = "correo", nullable = false, length = 100)
     private String correo;
 
+    private Boolean enabled;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idUser")
+    private List<Roles> roles;
 
 
-
-
+    public Usuario() {
+    }
 
 }

@@ -6,4 +6,5 @@ import pe.edu.upc.trabajoparcial.entities.Usuario;
 
 public interface RolesResitory extends JpaRepository<Roles, Long> {
 
+
 }

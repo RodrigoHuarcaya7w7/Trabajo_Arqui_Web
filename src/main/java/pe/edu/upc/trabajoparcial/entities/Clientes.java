@@ -1,6 +1,7 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "Metodo_pago")
+@Table( name = "Clientes")
 
-public class Metodo_pago {
+public class Clientes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
