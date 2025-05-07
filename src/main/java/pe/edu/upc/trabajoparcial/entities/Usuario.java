@@ -1,5 +1,34 @@
 package pe.edu.upc.trabajoparcial.entities;
 
+<<<<<<< HEAD
+
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
+// ---------- ENTIDAD: Usuario ----------
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUsuario;
+    private String nombre;
+    private String correo;
+    private String contrasena;
+
+    @ManyToOne
+    @JoinColumn(name = "idRol")
+    private Rol rol;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Cliente cliente;
+}
+=======
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -45,3 +74,4 @@ public class Usuario  {
     }
 
 }
+>>>>>>> 71a9f39d081c8bd8f80e51f5bc95c093f0eaff2f

@@ -1,6 +1,11 @@
 package pe.edu.upc.trabajoparcial.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+<<<<<<< HEAD
+import pe.edu.upc.trabajoparcial.entities.Usuario;
+
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {}
+=======
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,3 +41,4 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     public List<String[]> listarUsuariosPorCategoria(@Param("categoria") String categoria);
 
 }
+>>>>>>> 71a9f39d081c8bd8f80e51f5bc95c093f0eaff2f
