@@ -8,5 +8,5 @@ public interface ProductosResitory extends JpaRepository<Productos, Long> {
 //verificar//
   //QUERY JPQL: buscar producto por rango de precios
   @Query("SELECT p FROM Producto p WHERE p.precio BETWEEN :min AND :max")
-    List<Productos> buscarPorRangoDePrecio(float min, float max)
+    List<Productos> buscarPorRangoDePrecio(double min, double max)
 }
