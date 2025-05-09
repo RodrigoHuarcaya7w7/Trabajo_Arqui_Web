@@ -26,9 +26,9 @@ public class Pedidos {
     @Column(name = "fecha_pago")
     private LocalDateTime fecha_pago;
     
-    @Column(name = "id_cliente", nullable = false)
+   // @Column(name = "id_cliente", nullable = false)
     private int id_cliente;
     
     @Column(name = "id_cliente_Pago", nullable = false)
-    private int id_cliente_Pago;
+    private int id_cliente_Pago;//
 }
