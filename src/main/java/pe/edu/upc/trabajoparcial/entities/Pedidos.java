@@ -10,12 +10,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "Pedidos")
+@Table(name = "Pedidos")
 public class Pedidos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "nombre", nullable = false, length = 100)
-    private String nombre;
+    @Column(name = "id_pedidos")
+    private int id_pedidos;
+    
+    @Column(name = "fecha", nullable = false)
+    private LocalDateTime fecha;
+    
+    @Column(name = "monto", nullable = false)
+    private float monto;
+    
+    @Column(name = "fecha_pago")
+    private LocalDateTime fecha_pago;
+    
+    @Column(name = "id_cliente", nullable = false)
+    private int id_cliente;
+    
+    @Column(name = "id_cliente_Pago", nullable = false)
+    private int id_cliente_Pago;
 }
