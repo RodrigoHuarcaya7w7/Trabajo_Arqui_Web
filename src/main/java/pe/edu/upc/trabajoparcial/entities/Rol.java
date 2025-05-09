@@ -18,4 +18,6 @@ public class Rol {
 
     @OneToMany(mappedBy = "rol")
     private List<Usuario> usuarios;
+
+    jnbycyvubu
 }
