@@ -1,12 +1,7 @@
 package pe.edu.upc.trabajoparcial.entities;
 
-
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,4 +21,43 @@ public class OfertaTipoProducto {
     @ManyToOne
     @JoinColumn(name = "idOferta")
     private TipoOferta tipoOferta;
+
+    public OfertaTipoProducto(Integer id, TipoOferta tipoOferta, Producto producto, LocalDateTime fechaAplicacion) {
+        this.id = id;
+        this.tipoOferta = tipoOferta;
+        this.producto = producto;
+        this.fechaAplicacion = fechaAplicacion;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public TipoOferta getTipoOferta() {
+        return tipoOferta;
+    }
+
+    public void setTipoOferta(TipoOferta tipoOferta) {
+        this.tipoOferta = tipoOferta;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public LocalDateTime getFechaAplicacion() {
+        return fechaAplicacion;
+    }
+
+    public void setFechaAplicacion(LocalDateTime fechaAplicacion) {
+        this.fechaAplicacion = fechaAplicacion;
+    }
 }

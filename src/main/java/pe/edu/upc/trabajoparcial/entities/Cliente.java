@@ -1,23 +1,54 @@
 package pe.edu.upc.trabajoparcial.entities;
 
-import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
 @Entity
-@Table( name = "Clientes")
+@Data
+@NoArgsConstructor
 
 public class Cliente {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer idCliente;
 
-    @Column(name = "nombre", nullable = false, length = 100)
-    private String nombre;
+    @OneToOne
+    @JoinColumn(name = "idUsuario")
+    private Users users;
+
+    // Relación 1:N con Pedido (un cliente puede tener varios pedidos)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos;
+
+    // Relación 1:N con DireccionEntrega (un cliente puede tener varias direcciones)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DireccionEntrega> direcciones;
+
+
+    public Cliente(Integer idCliente, Users users) {
+        this.idCliente = idCliente;
+        this.users = users;
+    }
+
+
+
+
+    public Users getUsuario() {
+        return users;
+    }
+
+    public void setUsuario(Users usuario) {
+        this.users = usuario;
+    }
+
+    public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
 }

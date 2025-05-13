@@ -1,6 +1,11 @@
 package pe.edu.upc.trabajoparcial.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pe.edu.upc.trabajoparcial.entities.Rol;
+import org.springframework.stereotype.Repository;
+import pe.edu.upc.trabajoparcial.entities.Role;
 
-public interface RolRepository extends JpaRepository<Rol, Integer> {}
+
+@Repository
+public interface RolRepository extends JpaRepository<Role, Integer> {
+
+}
