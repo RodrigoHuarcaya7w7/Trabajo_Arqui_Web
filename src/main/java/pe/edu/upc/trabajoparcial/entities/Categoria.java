@@ -1,22 +1,51 @@
 package pe.edu.upc.trabajoparcial.entities;
-
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table( name = "Categoria")
+@Data
+@NoArgsConstructor
 
+@Table(name = "Categoria")
 public class Categoria {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer idCategoria;  // Este debe ser el identificador primario
 
-    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+    private String descripcion;
+
+
+    public Categoria(Integer idCategoria, String descripcion, String nombre) {
+        this.idCategoria = idCategoria;
+        this.descripcion = descripcion;
+        this.nombre = nombre;
+    }
+
+    public Integer getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Integer idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }
