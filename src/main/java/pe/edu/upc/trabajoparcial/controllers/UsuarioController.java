@@ -8,20 +8,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.trabajoparcial.DTOs.DTOToken;
-import pe.edu.upc.trabajoparcial.DTOs.UsuarioDTO;
 import pe.edu.upc.trabajoparcial.entities.Users;
 import pe.edu.upc.trabajoparcial.security.JwtUtilService;
 import pe.edu.upc.trabajoparcial.security.UserSecurity;
 import pe.edu.upc.trabajoparcial.serviceinterface.IUsuarioService;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/usuarios")
-public class UsuarioController {
+public class  UsuarioController {
 
     @Autowired
     private IUsuarioService userService;
@@ -37,35 +34,32 @@ public class UsuarioController {
 
     @PostMapping("/users")
     public ResponseEntity<Users> insertarUser(@RequestBody Users user) {
-        Users newUser =userService.addUser(user);
+        Users newUser = userService.addUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @PostMapping("users/login")
-    public ResponseEntity<DTOToken> login(@RequestBody Users user) {
+    @PostMapping("/users/login")
+    public ResponseEntity<?> login(@RequestBody Users user) {
+        System.out.println("🔥 Se llamó al método login");
 
-        // Autenticación del usuario
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
+            );
+        } catch (Exception e) {
+            System.out.println("❌ Error de autenticación: " + e.getMessage());
+            return new ResponseEntity<>("Credenciales inválidas", HttpStatus.UNAUTHORIZED);
+        }
 
-        // Obtener detalles del usuario desde el UserDetailsService
         UserSecurity userSecurity = (UserSecurity) userDetailsService.loadUserByUsername(user.getUsername());
 
-        // Generar el JWT
         String jwt = jwtUtilService.generateToken(userSecurity);
-
-        // Obtener ID del usuario
         Long id = userSecurity.getUser().getId();
-
-        // Obtener las autoridades (roles) del usuario y unirlas en un String
         String authorities = userSecurity.getUser().getRoles()
                 .stream()
-                .map(role -> role.getRol())  // Mapear cada rol al nombre del rol
-                .collect(Collectors.joining(";", "", ""));  // Concatenar los roles con un separador
+                .map(role -> role.getRol())
+                .collect(Collectors.joining(";", "", ""));
 
-        // Retornar el token JWT, ID de usuario y las autoridades
         return new ResponseEntity<>(new DTOToken(jwt, id, authorities), HttpStatus.OK);
     }
-
 }
