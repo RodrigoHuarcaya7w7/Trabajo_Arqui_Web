@@ -22,12 +22,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
 
     private static final String[] AUTH_WHITELIST = {
-            "/v2/api-docs/**",
             "/v3/api-docs/**",
-            "/swagger-resources/**",
+            "/swagger-ui/**",
             "/swagger-ui.html",
-            "/api/usuarios/users/login",
-            "/api/usuarios/users"
+            "/usuarios/users/login",
+            "/usuarios/users"
     };
 
     @Autowired

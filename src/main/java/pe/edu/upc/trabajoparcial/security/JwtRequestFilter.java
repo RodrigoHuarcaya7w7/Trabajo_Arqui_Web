@@ -33,7 +33,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         // Evitar aplicar el filtro a rutas públicas
-        if (path.equals("/api/usuarios/users/login") || path.equals("/api/usuarios/users")) {
+        if (path.equals("/usuarios/users/login") || path.equals("/usuarios/users"))
+        {
             filterChain.doFilter(request, response);
             return;
         }

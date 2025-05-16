@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api/direccion-entregas")
 public class DireccionEntregaController {
 
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+
 
     @Autowired
     private DireccionEntregaService direccionEntregaService;
