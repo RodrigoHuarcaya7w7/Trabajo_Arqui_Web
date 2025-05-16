@@ -19,11 +19,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration {
 
+    // ✅ Swagger y rutas públicas permitidas sin autenticación
     private static final String[] AUTH_WHITELIST = {
             "/v2/api-docs/**",
             "/v3/api-docs/**",
             "/swagger-resources/**",
+            "/swagger-ui/**",
             "/swagger-ui.html",
+            "/webjars/**",
             "/api/usuarios/users/login",
             "/api/usuarios/users"
     };
@@ -54,7 +57,6 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
@@ -62,10 +64,7 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-
-                        // ✅ Permitir acceso a /api/protegido/** a cualquier usuario autenticado
                         .requestMatchers(HttpMethod.GET, "/api/protegido/**").authenticated()
-
                         .requestMatchers(HttpMethod.GET, "/socrates/faculties/**").hasAnyAuthority("ROLE_USER", "ROLE_ASSIST", "ROLE_ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/socrates/faculties/**").hasAnyAuthority("ROLE_ASSIST", "ROLE_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/socrates/faculties/**").hasAnyAuthority("ROLE_ASSIST", "ROLE_ADMIN")
@@ -77,4 +76,5 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+
 
