@@ -1,13 +1,11 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +23,9 @@ public class Pedido {
     @JoinColumn(name = "idMetodoPago")
     private MetodoPago metodoPago;
 
+    public Pedido() {
+        // 🔧 Requerido por Hibernate
+    }
 
     public Pedido(Integer idPedido, MetodoPago metodoPago, Cliente cliente, LocalDateTime fechaPago, Float monto, String estado, LocalDateTime fecha) {
         this.idPedido = idPedido;

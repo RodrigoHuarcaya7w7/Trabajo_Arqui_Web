@@ -18,25 +18,26 @@ public class Users  {
     private String username;
     @Column(length = 200)
     private String password;
+    private String correo;
     private boolean  enabled;
 
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-
     private List<Role> roles;
 
-    public Users(){}
+    public Users() {
+    }
 
-    public Users(Long id, List<Role> roles, boolean enabled, String password, String username) {
+
+    public Users(Long id, List<Role> roles, boolean enabled, String username, String password, String correo) {
         this.id = id;
         this.roles = roles;
         this.enabled = enabled;
-        this.password = password;
         this.username = username;
+        this.password = password;
+        this.correo = correo;
     }
-
 
     public Long getId() {
         return id;
@@ -62,6 +63,14 @@ public class Users  {
         this.enabled = enabled;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -77,7 +86,6 @@ public class Users  {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
     @Override
     public String toString() {

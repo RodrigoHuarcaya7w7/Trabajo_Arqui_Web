@@ -1,12 +1,9 @@
 package pe.edu.upc.trabajoparcial.entities;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
+
 
 @Table(name = "Categoria")
 public class Categoria {
@@ -18,7 +15,8 @@ public class Categoria {
     private String nombre;
     private String descripcion;
 
-
+    public Categoria() {
+    }
     public Categoria(Integer idCategoria, String descripcion, String nombre) {
         this.idCategoria = idCategoria;
         this.descripcion = descripcion;

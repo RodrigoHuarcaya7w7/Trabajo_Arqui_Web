@@ -1,12 +1,10 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class ImagenProducto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +16,9 @@ public class ImagenProducto {
     @JoinColumn(name = "idProducto")
     private Producto producto;
 
+    public ImagenProducto(){
+
+    }
     public ImagenProducto(Integer idImagenProducto, Producto producto, String descripcion, String urlImagen) {
         this.idImagenProducto = idImagenProducto;
         this.producto = producto;

@@ -1,6 +1,7 @@
 package pe.edu.upc.trabajoparcial.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pe.edu.upc.trabajoparcial.entities.Users;
 
@@ -18,7 +19,10 @@ public class UserSecurity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (user.getRoles() == null) return Collections.emptyList();
-        return user.getRoles().stream().map(RoleSecurity::new).toList();
+
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRol()))
+                .toList();
     }
 
     @Override

@@ -17,8 +17,11 @@ public class Role implements Serializable {
     private String rol;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "idUser", nullable = false)
     private Users user;
+
+    public Role() {}
+
 
 
     //GETTERS AND SETTERES

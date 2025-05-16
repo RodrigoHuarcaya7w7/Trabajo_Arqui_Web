@@ -14,7 +14,7 @@ public interface IUsuarioService {
 
     public Users addUser(Users user);
 /**/
- public Users findByUsername(String username);
+
     /**/
     void deleteById(Integer id);
 
@@ -26,4 +26,10 @@ public interface IUsuarioService {
     public void delete (int id);
 
     public Users listid(int id);
+
+    //////////////////////
+    Users findByUsername(String username);// Solo este
+    Users findByUsernameWithRoles(String username);
+
+    Users addUserWithRole(Users user, String rolNombre);
 }

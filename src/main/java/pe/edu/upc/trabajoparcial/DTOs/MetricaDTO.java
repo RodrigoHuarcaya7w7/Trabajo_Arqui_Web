@@ -1,10 +1,10 @@
 package pe.edu.upc.trabajoparcial.DTOs;
 
-import lombok.Data;
+
 
 import java.time.LocalDateTime;
 
-@Data
+
 public class MetricaDTO {
 
     private Integer idMetrica;

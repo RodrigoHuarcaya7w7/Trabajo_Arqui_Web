@@ -1,22 +1,24 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class MetodoPago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMetodoPago;
+
     private String descripcion;
 
     @ManyToOne
     @JoinColumn(name = "idTipoPago")
     private TipoPago tipoPago;
 
+    public MetodoPago(){
+
+    }
     public MetodoPago(Integer idMetodoPago, TipoPago tipoPago, String descripcion) {
         this.idMetodoPago = idMetodoPago;
         this.tipoPago = tipoPago;

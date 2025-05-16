@@ -34,4 +34,9 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
     public void deleteById(Integer id) {
         detallePedidoRepository.deleteById(id);
     }
+
+    @Override
+    public List<DetallePedido> findAllByUserId(Long userId) {
+        return detallePedidoRepository.findAllByUserId(userId);
+    }
 }

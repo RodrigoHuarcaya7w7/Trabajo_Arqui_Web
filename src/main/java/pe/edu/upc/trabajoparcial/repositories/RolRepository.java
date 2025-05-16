@@ -8,4 +8,5 @@ import pe.edu.upc.trabajoparcial.entities.Role;
 @Repository
 public interface RolRepository extends JpaRepository<Role, Integer> {
 
+
 }

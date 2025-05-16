@@ -16,4 +16,6 @@ public interface DetallePedidoService {
     DetallePedido save(DetallePedido detallePedido);
 
     void deleteById(Integer id);
+
+    List<DetallePedido> findAllByUserId(Long userId);
 }

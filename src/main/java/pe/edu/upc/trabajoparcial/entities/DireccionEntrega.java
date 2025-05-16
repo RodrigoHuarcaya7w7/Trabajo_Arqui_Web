@@ -1,12 +1,10 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class DireccionEntrega {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +17,9 @@ public class DireccionEntrega {
     @JoinColumn(name = "idCliente")
     private Cliente cliente;
 
+    public DireccionEntrega(){
+
+    }
     public DireccionEntrega(Integer idDireccion, String referencia, String distrito, Cliente cliente, String direccion) {
         this.idDireccion = idDireccion;
         this.referencia = referencia;

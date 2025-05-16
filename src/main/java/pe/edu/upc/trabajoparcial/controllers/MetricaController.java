@@ -3,6 +3,7 @@ package pe.edu.upc.trabajoparcial.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.trabajoparcial.entities.Metrica;
 import pe.edu.upc.trabajoparcial.entities.Producto;
@@ -16,11 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/metricas")
+@RequestMapping("/metricas")
 public class MetricaController {
 
     @Autowired
     private MetricaService metricaService;
+
+
 
     // Obtener todas las métricas
     @GetMapping
@@ -30,6 +33,7 @@ public class MetricaController {
 
     // Obtener métricas por cliente
     @GetMapping("/cliente/{idCliente}")
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     public ResponseEntity<List<Metrica>> getMetricasByCliente(@PathVariable Integer idCliente) {
         List<Metrica> metricas = metricaService.findByCliente(idCliente);
         if (metricas.isEmpty()) {
@@ -39,6 +43,7 @@ public class MetricaController {
     }
 
     // Obtener el promedio de ventas por producto
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     @GetMapping("/promedio-ventas/{idProducto}")
     public ResponseEntity<Float> getPromedioVentasPorProducto(@PathVariable Integer idProducto) {
         Float promedioVentas = metricaService.findPromedioVentasPorProducto(idProducto);
@@ -50,6 +55,7 @@ public class MetricaController {
 
     // Obtener productos con el mejor rendimiento
     @GetMapping("/productos-mejor-rendimiento")
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     public ResponseEntity<List<Producto>> getProductosConMejorRendimiento() {
         List<Producto> productos = metricaService.findProductosConMejorRendimiento();
         if (productos.isEmpty()) {
@@ -60,6 +66,7 @@ public class MetricaController {
 
     // Crear una nueva métrica
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     public ResponseEntity<Metrica> createMetrica(@RequestBody Metrica metrica) {
         Metrica createdMetrica = metricaService.save(metrica);
         return ResponseEntity.ok(createdMetrica);
@@ -67,6 +74,7 @@ public class MetricaController {
 
     // Actualizar una métrica
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     public ResponseEntity<Metrica> updateMetrica(@PathVariable Integer id, @RequestBody Metrica metrica) {
         metrica.setIdMetrica(id);
         Metrica updatedMetrica = metricaService.save(metrica);
@@ -75,6 +83,7 @@ public class MetricaController {
 
     // Eliminar una métrica
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
     public ResponseEntity<Void> deleteMetrica(@PathVariable Integer id) {
         metricaService.deleteById(id);
         return ResponseEntity.noContent().build();

@@ -2,6 +2,7 @@ package pe.edu.upc.trabajoparcial.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pe.edu.upc.trabajoparcial.entities.Pedido;
 import pe.edu.upc.trabajoparcial.serviceinterface.PedidoService;
@@ -22,18 +23,21 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Pedido> getPedidoById(@PathVariable Integer id) {
         Optional<Pedido> pedido = pedidoService.findById(id);
         return pedido.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
         Pedido createdPedido = pedidoService.save(pedido);
         return ResponseEntity.ok(createdPedido);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Pedido> updatePedido(@PathVariable Integer id, @RequestBody Pedido pedido) {
         pedido.setIdPedido(id);
         Pedido updatedPedido = pedidoService.save(pedido);
@@ -41,12 +45,14 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Void> deletePedido(@PathVariable Integer id) {
         pedidoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/estado/{estado}")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<List<Pedido>> getPedidosByEstado(@PathVariable String estado) {
         List<Pedido> pedidos = pedidoService.findByEstado(estado);
         return pedidos.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pedidos);

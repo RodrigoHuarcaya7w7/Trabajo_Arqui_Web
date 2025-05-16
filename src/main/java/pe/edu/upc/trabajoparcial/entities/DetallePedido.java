@@ -1,12 +1,10 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class DetallePedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +20,10 @@ public class DetallePedido {
     @JoinColumn(name = "idProducto")
     private Producto producto;
 
+    public DetallePedido() {
+    }
+
+    // ✅ Constructor personalizado adicional
     public DetallePedido(Integer idDetalle, Producto producto, Float precio, Integer cantidad, Pedido pedido) {
         this.idDetalle = idDetalle;
         this.producto = producto;

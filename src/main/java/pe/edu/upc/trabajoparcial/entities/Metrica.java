@@ -1,13 +1,11 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Table(name = "Metrica")
 public class Metrica {
     @Id
@@ -28,7 +26,9 @@ public class Metrica {
     @JoinColumn(name = "idProducto") // Asegúrate de que este campo esté en Metrica
     private Producto producto;  // Añadir relación con Producto
 
+    public Metrica(){
 
+    }
 
     public Metrica(Integer idMetrica, Producto producto, Cliente cliente, Float calificacionPromedio, LocalDateTime fechaActualizacion, Float ventasTotales, Integer productosPublicados, Integer productosVendidos) {
         this.idMetrica = idMetrica;

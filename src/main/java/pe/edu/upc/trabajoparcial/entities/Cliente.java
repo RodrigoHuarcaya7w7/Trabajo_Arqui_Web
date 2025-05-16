@@ -2,13 +2,11 @@ package pe.edu.upc.trabajoparcial.entities;
 
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
+
 
 public class Cliente {
     @Id
@@ -27,6 +25,9 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DireccionEntrega> direcciones;
 
+    public Cliente(){
+
+    }
 
     public Cliente(Integer idCliente, Users users) {
         this.idCliente = idCliente;

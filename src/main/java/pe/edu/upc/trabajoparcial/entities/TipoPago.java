@@ -1,11 +1,10 @@
 package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
-@Data
-@NoArgsConstructor
+
 
 public class TipoPago {
     @Id
@@ -14,6 +13,9 @@ public class TipoPago {
     private String nombrePago;
 
 
+    public TipoPago(){
+
+    }
     public TipoPago(Integer idTipoPago, String nombrePago) {
         this.idTipoPago = idTipoPago;
         this.nombrePago = nombrePago;
