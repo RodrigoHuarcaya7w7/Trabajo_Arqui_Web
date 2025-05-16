@@ -23,12 +23,17 @@ public class Pedido {
     @JoinColumn(name = "idMetodoPago")
     private MetodoPago metodoPago;
 
+    @ManyToOne
+    @JoinColumn(name = "idDireccion", nullable = false)
+    private DireccionEntrega direccionEntrega;
+
     public Pedido() {
         // 🔧 Requerido por Hibernate
     }
 
-    public Pedido(Integer idPedido, MetodoPago metodoPago, Cliente cliente, LocalDateTime fechaPago, Float monto, String estado, LocalDateTime fecha) {
+    public Pedido(Integer idPedido, DireccionEntrega direccionEntrega, MetodoPago metodoPago, Cliente cliente, LocalDateTime fechaPago, Float monto, String estado, LocalDateTime fecha) {
         this.idPedido = idPedido;
+        this.direccionEntrega = direccionEntrega;
         this.metodoPago = metodoPago;
         this.cliente = cliente;
         this.fechaPago = fechaPago;
@@ -43,6 +48,14 @@ public class Pedido {
 
     public void setIdPedido(Integer idPedido) {
         this.idPedido = idPedido;
+    }
+
+    public DireccionEntrega getDireccionEntrega() {
+        return direccionEntrega;
+    }
+
+    public void setDireccionEntrega(DireccionEntrega direccionEntrega) {
+        this.direccionEntrega = direccionEntrega;
     }
 
     public MetodoPago getMetodoPago() {
