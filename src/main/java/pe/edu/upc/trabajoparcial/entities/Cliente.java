@@ -21,9 +21,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos;
 
-    // Relación 1:N con DireccionEntrega (un cliente puede tener varias direcciones)
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DireccionEntrega> direcciones;
+
 
     public Cliente(){
 

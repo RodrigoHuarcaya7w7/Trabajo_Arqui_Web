@@ -2,43 +2,104 @@ package pe.edu.upc.trabajoparcial.entities;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 @Entity
-
+@Table(name = "producto")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_producto")
     private Integer idProducto;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
-    private Float precio;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precio;
+
+    @Column(name = "precio_descuento", precision = 10, scale = 2, nullable = false)
+    private BigDecimal precioDescuento;
+
     private Integer stock;
 
     @ManyToOne
-    @JoinColumn(name = "idCliente")
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "idCategoria")
+    @JoinColumn(name = "id_categoria", nullable = false)
     private Categoria categoria;
 
     @ManyToOne
-    @JoinColumn(name = "idTipoOferta")
+    @JoinColumn(name = "id_tipo_oferta")
     private TipoOferta tipoOferta;
 
-    public Producto(){
-
+    public Producto() {
+        // Constructor vacío requerido por JPA
     }
-    public Producto(Integer idProducto, Categoria categoria, TipoOferta tipoOferta, Cliente cliente, Integer stock, String descripcion, String nombre, Float precio) {
+
+    // Constructor opcional con todos los campos
+    public Producto(Integer idProducto, TipoOferta tipoOferta, Categoria categoria,
+                    Cliente cliente, BigDecimal precio, BigDecimal precioDescuento,
+                    Integer stock, String descripcion, String nombre) {
         this.idProducto = idProducto;
-        this.categoria = categoria;
         this.tipoOferta = tipoOferta;
+        this.categoria = categoria;
         this.cliente = cliente;
+        this.precio = precio;
+        this.precioDescuento = precioDescuento;
         this.stock = stock;
         this.descripcion = descripcion;
         this.nombre = nombre;
-        this.precio = precio;
     }
+
+    @PrePersist
+    @PreUpdate
+    private void aplicarDescuento() {
+        if (precio == null) {
+            this.precioDescuento = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+            return;
+        }
+
+        if (tipoOferta != null && tipoOferta.getImporte() != null) {
+            BigDecimal imp = tipoOferta.getImporte();
+            BigDecimal resultado;
+            if (imp.compareTo(BigDecimal.ONE) < 0) {
+                // Descuento porcentual
+                resultado = precio.multiply(BigDecimal.ONE.subtract(imp));
+            } else {
+                // Descuento de monto fijo
+                resultado = precio.subtract(imp).max(BigDecimal.ZERO);
+            }
+            this.precioDescuento = resultado.setScale(2, RoundingMode.HALF_UP);
+        } else {
+            // Sin descuento
+            this.precioDescuento = precio.setScale(2, RoundingMode.HALF_UP);
+        }
+    }
+
+    @Transient
+    public BigDecimal calcularPrecioConDescuento() {
+        if (tipoOferta == null || tipoOferta.getImporte() == null) {
+            return precio.setScale(2, RoundingMode.HALF_UP);
+        }
+        BigDecimal imp = tipoOferta.getImporte();
+        BigDecimal resultado;
+        if (imp.compareTo(BigDecimal.ONE) < 0) {
+            resultado = precio.multiply(BigDecimal.ONE.subtract(imp));
+        } else {
+            resultado = precio.subtract(imp).max(BigDecimal.ZERO);
+        }
+        return resultado.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    // Getters y setters
 
     public Integer getIdProducto() {
         return idProducto;
@@ -64,12 +125,20 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public Float getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Float precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
+    }
+
+    public BigDecimal getPrecioDescuento() {
+        return precioDescuento;
+    }
+
+    public void setPrecioDescuento(BigDecimal precioDescuento) {
+        this.precioDescuento = precioDescuento;
     }
 
     public Integer getStock() {
@@ -78,6 +147,14 @@ public class Producto {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Categoria getCategoria() {
@@ -94,13 +171,5 @@ public class Producto {
 
     public void setTipoOferta(TipoOferta tipoOferta) {
         this.tipoOferta = tipoOferta;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 }

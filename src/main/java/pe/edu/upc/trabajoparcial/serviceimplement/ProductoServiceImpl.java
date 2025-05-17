@@ -8,11 +8,15 @@ import pe.edu.upc.trabajoparcial.entities.Producto;
 import pe.edu.upc.trabajoparcial.repositories.ProductoRepository;
 import pe.edu.upc.trabajoparcial.serviceinterface.ProductoService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class ProductoServiceImpl implements ProductoService {
+
+
 
     @Autowired
     private ProductoRepository productoRepository;
@@ -37,6 +41,7 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.deleteById(id);
     }
 
+
     @Override
     public List<Producto> findByNombre(String nombre) {
         return productoRepository.findByNombreContainingIgnoreCase(nombre);
@@ -48,7 +53,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public List<Producto> findByPrecioRange(Float minPrecio, Float maxPrecio) {
+    public List<Producto> findByPrecioBetween(BigDecimal minPrecio, BigDecimal maxPrecio) {
         return productoRepository.findByPrecioBetween(minPrecio, maxPrecio);
     }
 

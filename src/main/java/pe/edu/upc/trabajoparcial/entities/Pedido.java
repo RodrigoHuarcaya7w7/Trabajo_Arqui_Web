@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-
+@Table(name = "pedido")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id_pedido")
     private Integer idPedido;
     private LocalDateTime fecha;
     private String estado;
@@ -23,17 +24,15 @@ public class Pedido {
     @JoinColumn(name = "idMetodoPago")
     private MetodoPago metodoPago;
 
-    @ManyToOne
-    @JoinColumn(name = "idDireccion", nullable = false)
-    private DireccionEntrega direccionEntrega;
-
+    @Column(name = "direccion", nullable = false, length = 255)
+    private String direccion;
     public Pedido() {
         // 🔧 Requerido por Hibernate
     }
 
-    public Pedido(Integer idPedido, DireccionEntrega direccionEntrega, MetodoPago metodoPago, Cliente cliente, LocalDateTime fechaPago, Float monto, String estado, LocalDateTime fecha) {
+    public Pedido(Integer idPedido, String direccion, MetodoPago metodoPago, Cliente cliente, LocalDateTime fechaPago, Float monto, String estado, LocalDateTime fecha) {
         this.idPedido = idPedido;
-        this.direccionEntrega = direccionEntrega;
+        this.direccion = direccion;
         this.metodoPago = metodoPago;
         this.cliente = cliente;
         this.fechaPago = fechaPago;
@@ -50,12 +49,12 @@ public class Pedido {
         this.idPedido = idPedido;
     }
 
-    public DireccionEntrega getDireccionEntrega() {
-        return direccionEntrega;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDireccionEntrega(DireccionEntrega direccionEntrega) {
-        this.direccionEntrega = direccionEntrega;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public MetodoPago getMetodoPago() {
@@ -66,20 +65,20 @@ public class Pedido {
         this.metodoPago = metodoPago;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public LocalDateTime getFechaPago() {
         return fechaPago;
     }
 
     public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Float getMonto() {

@@ -1,6 +1,7 @@
 package pe.edu.upc.trabajoparcial.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public List<Pedido> getAllPedidos() {
         return pedidoService.findAll();
     }
@@ -32,10 +34,13 @@ public class PedidoController {
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
-        Pedido createdPedido = pedidoService.save(pedido);
-        return ResponseEntity.ok(createdPedido);
+        // Asegurarte de que siempre es INSERT, no MERGE
+        pedido.setIdPedido(null);
+        Pedido creado = pedidoService.save(pedido);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(creado);
     }
-
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Pedido> updatePedido(@PathVariable Integer id, @RequestBody Pedido pedido) {

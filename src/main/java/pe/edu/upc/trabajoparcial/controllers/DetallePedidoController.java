@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/detalle-pedidos")
+@RequestMapping("/api/detalle-pedidos")
 public class DetallePedidoController {
 
 
@@ -25,7 +25,7 @@ public class DetallePedidoController {
     private DetallePedidoService detallePedidoService;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     public List<DetallePedido> getAllDetallePedidos() {
         return detallePedidoService.findAll();
     }
