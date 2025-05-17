@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pe.edu.upc.trabajoparcial.DTOs.MetricaDTO;
 import pe.edu.upc.trabajoparcial.entities.Metrica;
 import pe.edu.upc.trabajoparcial.entities.Producto;
 import pe.edu.upc.trabajoparcial.repositories.MetricaRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -31,61 +33,42 @@ public class MetricaController {
         return metricaService.findAll();
     }
 
-    // Obtener métricas por cliente
-    @GetMapping("/cliente/{idCliente}")
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    public ResponseEntity<List<Metrica>> getMetricasByCliente(@PathVariable Integer idCliente) {
-        List<Metrica> metricas = metricaService.findByCliente(idCliente);
-        if (metricas.isEmpty()) {
-            return ResponseEntity.notFound().build();  // Si no se encuentran métricas, respondemos con 404
-        }
-        return ResponseEntity.ok(metricas);  // Si hay métricas, las devolvemos
+
+
+    @GetMapping("/top-productos/por-unidades/{n}")
+    public ResponseEntity<List<Map<String,Object>>> topPorUnidades(@PathVariable int n) {
+        List<Object[]> rows = metricaService.topNProductosPorUnidades(n);
+        List<Map<String,Object>> resp = rows.stream()
+                .map(r -> {
+                    Producto p        = (Producto) r[0];
+                    int unidades      = ((Number) r[1]).intValue();
+                    return Map.<String,Object>of(
+                            "productoId",      p.getIdProducto(),
+                            "nombre",          p.getNombre(),
+                            "categoria",       p.getCategoria().getNombre(),
+                            "unidadesVendidas", unidades
+                    );
+                })
+                .toList();
+        return ResponseEntity.ok(resp);
     }
 
-    // Obtener el promedio de ventas por producto
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    @GetMapping("/promedio-ventas/{idProducto}")
-    public ResponseEntity<Float> getPromedioVentasPorProducto(@PathVariable Integer idProducto) {
-        Float promedioVentas = metricaService.findPromedioVentasPorProducto(idProducto);
-        if (promedioVentas == null) {
-            return ResponseEntity.notFound().build();  // Si no se encuentra el promedio, respondemos con 404
-        }
-        return ResponseEntity.ok(promedioVentas);  // Si hay resultado, lo devolvemos
+    @GetMapping ("/top-productosT")
+    public ResponseEntity<List<MetricaDTO>> getMetrics(
+            @RequestParam(name="topN", defaultValue="10") int topN) {
+        List<MetricaDTO> dtos = metricaService.getDynamicMetrics(topN);
+        return ResponseEntity.ok(dtos);
     }
-
-    // Obtener productos con el mejor rendimiento
-    @GetMapping("/productos-mejor-rendimiento")
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    public ResponseEntity<List<Producto>> getProductosConMejorRendimiento() {
-        List<Producto> productos = metricaService.findProductosConMejorRendimiento();
-        if (productos.isEmpty()) {
-            return ResponseEntity.notFound().build();  // Si no hay productos, respondemos con 404
-        }
-        return ResponseEntity.ok(productos);  // Devolvemos la lista de productos
-    }
-
-    // Crear una nueva métrica
-    @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    public ResponseEntity<Metrica> createMetrica(@RequestBody Metrica metrica) {
-        Metrica createdMetrica = metricaService.save(metrica);
-        return ResponseEntity.ok(createdMetrica);
-    }
-
-    // Actualizar una métrica
-    @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    public ResponseEntity<Metrica> updateMetrica(@PathVariable Integer id, @RequestBody Metrica metrica) {
-        metrica.setIdMetrica(id);
-        Metrica updatedMetrica = metricaService.save(metrica);
-        return ResponseEntity.ok(updatedMetrica);
-    }
-
-    // Eliminar una métrica
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_VENDEDOR')")
-    public ResponseEntity<Void> deleteMetrica(@PathVariable Integer id) {
-        metricaService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/top-categorias/por-monto/{n}")
+    public ResponseEntity<List<Map<String,Object>>> topCategoriasPorMonto(
+            @PathVariable("n") int n) {
+        List<Object[]> rows = metricaService.topNCategoriasPorMonto(n);
+        List<Map<String,Object>> resp = rows.stream()
+                .map(r -> Map.<String,Object>of(
+                        "categoria",    r[0],
+                        "totalIngresos", ((Number) r[1]).doubleValue()
+                ))
+                .toList();
+        return ResponseEntity.ok(resp);
     }
 }

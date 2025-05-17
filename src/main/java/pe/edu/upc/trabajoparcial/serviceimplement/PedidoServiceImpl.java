@@ -3,6 +3,7 @@ package pe.edu.upc.trabajoparcial.serviceimplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.trabajoparcial.entities.Pedido;
+import pe.edu.upc.trabajoparcial.entities.Producto;
 import pe.edu.upc.trabajoparcial.repositories.PedidoRepository;
 import pe.edu.upc.trabajoparcial.serviceinterface.PedidoService;
 
@@ -45,4 +46,7 @@ public class PedidoServiceImpl implements PedidoService {
     public List<Pedido> findByEstado(String estado) {
         return pedidoRepository.findByEstado(estado);  // Llamada al repositorio para obtener pedidos por estado
     }
+
+
+
 }

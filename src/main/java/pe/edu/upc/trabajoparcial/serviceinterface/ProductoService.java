@@ -25,4 +25,10 @@ public interface ProductoService {
     List<Producto> findByPrecioBetween(BigDecimal minPrecio, BigDecimal maxPrecio);
 
     List<Producto> findByVendedor(Integer idCliente);
+
+    /**
+     * @param topN cuántos productos devolver
+     * @return lista de los N productos con mayor precio
+     */
+    List<Producto> topNProductosMasCaros(int topN);
 }

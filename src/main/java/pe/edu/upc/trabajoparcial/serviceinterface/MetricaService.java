@@ -1,5 +1,6 @@
 package pe.edu.upc.trabajoparcial.serviceinterface;
 
+import pe.edu.upc.trabajoparcial.DTOs.MetricaDTO;
 import pe.edu.upc.trabajoparcial.entities.Metrica;
 import pe.edu.upc.trabajoparcial.entities.Producto;
 
@@ -10,18 +11,18 @@ public interface MetricaService {
     // Buscar todas las métricas
     List<Metrica> findAll();
 
-    // Buscar métricas por cliente
-    List<Metrica> findByCliente(Integer idCliente);
 
-    // Promedio de ventas por producto
-    Float findPromedioVentasPorProducto(Integer idProducto);
 
-    // Obtener productos con mejor rendimiento
-    List<Producto> findProductosConMejorRendimiento();
 
-    // Guardar una nueva métrica
-    Metrica save(Metrica metrica);
+    List<MetricaDTO> getDynamicMetrics(int topN);
 
-    // Eliminar una métrica por id
-    void deleteById(Integer id);
+    /**
+     * Devuelve las N categorías que más ingresos han generado.
+     * @param topN número de categorías a devolver
+     * @return lista de pares [nombreCategoria, totalIngresos]
+     */
+    List<Object[]> topNCategoriasPorMonto(int topN);
+
+    List<Object[]> topNProductosPorUnidades(int topN);
+
 }

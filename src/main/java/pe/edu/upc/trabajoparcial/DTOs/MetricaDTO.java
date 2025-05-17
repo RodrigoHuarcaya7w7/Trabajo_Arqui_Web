@@ -6,74 +6,46 @@ import java.time.LocalDateTime;
 
 
 public class MetricaDTO {
-
-    private Integer idMetrica;
+    private Integer productoId;
+    private String nombreProducto;
+    private String categoria;
     private Integer productosVendidos;
-    private Integer productosPublicados;
-    private Float ventasTotales;
-    private Float calificacionPromedio;
-    private LocalDateTime fechaActualizacion;
-    private Integer idCliente;
+    private Double ventasTotales;
+    private LocalDateTime fechaUltimaVenta;
 
-    // Constructor, getters y setters si es necesario
-
-
-    public MetricaDTO(Integer idMetrica, Integer idCliente, LocalDateTime fechaActualizacion, Float calificacionPromedio, Float ventasTotales, Integer productosVendidos, Integer productosPublicados) {
-        this.idMetrica = idMetrica;
-        this.idCliente = idCliente;
-        this.fechaActualizacion = fechaActualizacion;
-        this.calificacionPromedio = calificacionPromedio;
-        this.ventasTotales = ventasTotales;
+    // Constructor
+    public MetricaDTO(Integer productoId, String nombreProducto, String categoria,
+                      Integer productosVendidos, Double ventasTotales, LocalDateTime fechaUltimaVenta) {
+        this.productoId = productoId;
+        this.nombreProducto = nombreProducto;
+        this.categoria = categoria;
         this.productosVendidos = productosVendidos;
-        this.productosPublicados = productosPublicados;
+        this.ventasTotales = ventasTotales;
+        this.fechaUltimaVenta = fechaUltimaVenta;
     }
 
-    public Integer getIdMetrica() {
-        return idMetrica;
+    public Integer getProductoId() {
+        return productoId;
     }
 
-    public void setIdMetrica(Integer idMetrica) {
-        this.idMetrica = idMetrica;
+    public void setProductoId(Integer productoId) {
+        this.productoId = productoId;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public LocalDateTime getFechaUltimaVenta() {
+        return fechaUltimaVenta;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setFechaUltimaVenta(LocalDateTime fechaUltimaVenta) {
+        this.fechaUltimaVenta = fechaUltimaVenta;
     }
 
-    public LocalDateTime getFechaActualizacion() {
-        return fechaActualizacion;
-    }
-
-    public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
-        this.fechaActualizacion = fechaActualizacion;
-    }
-
-    public Float getCalificacionPromedio() {
-        return calificacionPromedio;
-    }
-
-    public void setCalificacionPromedio(Float calificacionPromedio) {
-        this.calificacionPromedio = calificacionPromedio;
-    }
-
-    public Float getVentasTotales() {
+    public Double getVentasTotales() {
         return ventasTotales;
     }
 
-    public void setVentasTotales(Float ventasTotales) {
+    public void setVentasTotales(Double ventasTotales) {
         this.ventasTotales = ventasTotales;
-    }
-
-    public Integer getProductosPublicados() {
-        return productosPublicados;
-    }
-
-    public void setProductosPublicados(Integer productosPublicados) {
-        this.productosPublicados = productosPublicados;
     }
 
     public Integer getProductosVendidos() {
@@ -82,5 +54,21 @@ public class MetricaDTO {
 
     public void setProductosVendidos(Integer productosVendidos) {
         this.productosVendidos = productosVendidos;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 }

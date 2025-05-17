@@ -31,14 +31,14 @@ public class MetodoPagoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<MetodoPago> createMetodoPago(@RequestBody MetodoPago metodoPago) {
         MetodoPago createdMetodoPago = metodoPagoService.save(metodoPago);
         return ResponseEntity.ok(createdMetodoPago);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<MetodoPago> updateMetodoPago(@PathVariable Integer id, @RequestBody MetodoPago metodoPago) {
         metodoPago.setIdMetodoPago(id);
         MetodoPago updatedMetodoPago = metodoPagoService.save(metodoPago);
@@ -46,7 +46,7 @@ public class MetodoPagoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<Void> deleteMetodoPago(@PathVariable Integer id) {
         metodoPagoService.deleteById(id);
         return ResponseEntity.noContent().build();

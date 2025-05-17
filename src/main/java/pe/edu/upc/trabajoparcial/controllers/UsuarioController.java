@@ -44,16 +44,19 @@ public class UsuarioController {
 
 
 @PostMapping("/users/comprador")
+@PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
 public ResponseEntity<Users> insertarComprador(@RequestBody Users user) {
     return new ResponseEntity<>(userService.addUserWithRole(user, "USER"), HttpStatus.CREATED);
 }
 
 @PostMapping("/users/vendedor")
+@PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
 public ResponseEntity<Users> insertarVendedor(@RequestBody Users user) {
     return new ResponseEntity<>(userService.addUserWithRole(user, "VENDEDOR"), HttpStatus.CREATED);
 }
 
 @PostMapping("/users/admin")
+@PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
 public ResponseEntity<Users> insertarAdmin(@RequestBody Users user) {
     return new ResponseEntity<>(userService.addUserWithRole(user, "ADMIN"), HttpStatus.CREATED);
 }

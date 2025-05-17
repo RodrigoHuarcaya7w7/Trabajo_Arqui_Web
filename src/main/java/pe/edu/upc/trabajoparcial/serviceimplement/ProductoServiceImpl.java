@@ -2,10 +2,13 @@ package pe.edu.upc.trabajoparcial.serviceimplement;
 
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import pe.edu.upc.trabajoparcial.entities.Producto;
 import pe.edu.upc.trabajoparcial.repositories.ProductoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pe.edu.upc.trabajoparcial.serviceinterface.ProductoService;
 
 import java.math.BigDecimal;
@@ -60,5 +63,10 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public List<Producto> findByVendedor(Integer idCliente) {
         return productoRepository.findByClienteIdCliente(idCliente);
+    }
+    @Override
+    public List<Producto> topNProductosMasCaros(int topN) {
+        Pageable page = PageRequest.of(0, topN);
+        return productoRepository.findAllByOrderByPrecioDesc(page);
     }
 }

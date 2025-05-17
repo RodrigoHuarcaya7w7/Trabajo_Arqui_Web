@@ -43,6 +43,7 @@ public class ProductoController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_VENDEDOR')")
     public ResponseEntity<Producto> createProducto(@RequestBody Producto p) {
         // forzar identidad nueva
         p.setIdProducto(null);
@@ -84,4 +85,14 @@ public class ProductoController {
         productoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    /**
+     * GET /metricas/top-productos/mas-caros/{n}
+     * Devuelve los N productos con mayor precio.
+     */
+    @GetMapping("/top-productos/mas-caros/{n}")
+    public ResponseEntity<List<Producto>> topProductosMasCaros(@PathVariable int n) {
+        List<Producto> lista = productoService.topNProductosMasCaros(n);
+        return ResponseEntity.ok(lista);
+    }
+
 }

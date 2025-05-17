@@ -20,4 +20,6 @@ public interface PedidoService {
     List<Pedido> findByCliente(Integer idCliente);
 
     List<Pedido> findByEstado(String estado);
+
+
 }

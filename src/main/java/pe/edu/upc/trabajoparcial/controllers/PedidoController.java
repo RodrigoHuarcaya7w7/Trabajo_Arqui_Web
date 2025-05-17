@@ -32,7 +32,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
         // Asegurarte de que siempre es INSERT, no MERGE
         pedido.setIdPedido(null);
@@ -42,7 +42,7 @@ public class PedidoController {
                 .body(creado);
     }
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<Pedido> updatePedido(@PathVariable Integer id, @RequestBody Pedido pedido) {
         pedido.setIdPedido(id);
         Pedido updatedPedido = pedidoService.save(pedido);
@@ -50,14 +50,14 @@ public class PedidoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<Void> deletePedido(@PathVariable Integer id) {
         pedidoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
+/// PAGADO 0 CREADO
     @GetMapping("/estado/{estado}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
+    @PreAuthorize("hasAnyAuthority( 'ROLE_ADMIN')")
     public ResponseEntity<List<Pedido>> getPedidosByEstado(@PathVariable String estado) {
         List<Pedido> pedidos = pedidoService.findByEstado(estado);
         return pedidos.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(pedidos);

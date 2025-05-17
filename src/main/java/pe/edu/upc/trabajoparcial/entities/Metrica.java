@@ -13,9 +13,7 @@ public class Metrica {
     private Integer idMetrica;
 
     private Integer productosVendidos;
-    private Integer productosPublicados;
     private Float ventasTotales;
-    private Float calificacionPromedio;
     private LocalDateTime fechaActualizacion;
 
     @ManyToOne
@@ -30,14 +28,12 @@ public class Metrica {
 
     }
 
-    public Metrica(Integer idMetrica, Producto producto, Cliente cliente, Float calificacionPromedio, LocalDateTime fechaActualizacion, Float ventasTotales, Integer productosPublicados, Integer productosVendidos) {
+    public Metrica(Integer idMetrica, Producto producto, Cliente cliente, LocalDateTime fechaActualizacion, Float ventasTotales, Integer productosVendidos) {
         this.idMetrica = idMetrica;
         this.producto = producto;
         this.cliente = cliente;
-        this.calificacionPromedio = calificacionPromedio;
         this.fechaActualizacion = fechaActualizacion;
         this.ventasTotales = ventasTotales;
-        this.productosPublicados = productosPublicados;
         this.productosVendidos = productosVendidos;
     }
 
@@ -73,13 +69,7 @@ public class Metrica {
         this.fechaActualizacion = fechaActualizacion;
     }
 
-    public Float getCalificacionPromedio() {
-        return calificacionPromedio;
-    }
 
-    public void setCalificacionPromedio(Float calificacionPromedio) {
-        this.calificacionPromedio = calificacionPromedio;
-    }
 
     public Float getVentasTotales() {
         return ventasTotales;
@@ -89,13 +79,6 @@ public class Metrica {
         this.ventasTotales = ventasTotales;
     }
 
-    public Integer getProductosPublicados() {
-        return productosPublicados;
-    }
-
-    public void setProductosPublicados(Integer productosPublicados) {
-        this.productosPublicados = productosPublicados;
-    }
 
     public Integer getProductosVendidos() {
         return productosVendidos;

@@ -20,6 +20,7 @@ public class TipoPagoController {
     private TipoPagoService tipoPagoService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN','ROLE_VENDEDOR')")
     public List<TipoPago> getAllTipoPagos() {
         return tipoPagoService.findAll();
     }

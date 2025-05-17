@@ -8,19 +8,57 @@ import pe.edu.upc.trabajoparcial.entities.MetodoPago;
 import pe.edu.upc.trabajoparcial.entities.Metrica;
 import pe.edu.upc.trabajoparcial.entities.Producto;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Repository
 public interface MetricaRepository extends JpaRepository<Metrica, Integer> {
 
-    // Obtener métricas de un vendedor (cliente) específico
-    List<Metrica> findByClienteIdCliente(Integer idCliente);
+    @Query("""
+      SELECT p, COALESCE(SUM(m.ventasTotales),0)
+      FROM Producto p
+      LEFT JOIN Metrica m ON m.producto = p
+      GROUP BY p
+      ORDER BY COALESCE(SUM(m.ventasTotales),0) DESC
+    """)
+    List<Object[]> topNProductosPorMonto(Pageable pageable);
 
-    // Promedio de ventas totales por producto
-    @Query("SELECT AVG(m.ventasTotales) FROM Metrica m WHERE m.producto.idProducto = :idProducto")
-    Float findPromedioVentasPorProducto(Integer idProducto);
+    /**
+     * Top N productos por unidades vendidas.
+     * Incluye todos los productos (sin métricas = 0).
+     */
+    @Query("""
+      SELECT p, COALESCE(SUM(m.productosVendidos),0)
+      FROM Producto p
+      LEFT JOIN Metrica m ON m.producto = p
+      GROUP BY p
+      ORDER BY COALESCE(SUM(m.productosVendidos),0) DESC
+    """)
+    List<Object[]> topNProductosPorUnidades(Pageable pageable);
 
-    // Obtener productos con el mejor rendimiento (ordenados por ventas totales)
-    @Query("SELECT m.producto FROM Metrica m ORDER BY m.ventasTotales DESC")
-    List<Producto> findProductosConMejorRendimiento();
+    @Query("""
+      SELECT dp.producto,
+             COALESCE(SUM(dp.cantidad), 0),
+             COALESCE(SUM(dp.cantidad * dp.producto.precio), 0),
+             MAX(dp.pedido.fecha)
+      FROM DetallePedido dp
+      WHERE dp.pedido.estado = 'PAGADO'
+      GROUP BY dp.producto
+      ORDER BY SUM(dp.cantidad * dp.producto.precio) DESC
+    """)
+    List<Object[]> fetchMetrics(Pageable pageable);
+
+    /**
+     * Top N categorías por ingresos (cantidad·precio), sólo pedidos PAGADO.
+     * Devuelve pares [nombreCategoria, totalIngresos].
+     */
+    @Query("""
+      SELECT dp.producto.categoria.nombre, 
+             COALESCE(SUM(dp.cantidad * dp.producto.precio), 0)
+      FROM DetallePedido dp
+      WHERE dp.pedido.estado = 'PAGADO'
+      GROUP BY dp.producto.categoria.nombre
+      ORDER BY SUM(dp.cantidad * dp.producto.precio) DESC
+    """)
+    List<Object[]> topNCategoriasPorMonto(Pageable pageable);
 }
